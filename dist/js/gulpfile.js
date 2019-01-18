@@ -7,11 +7,11 @@ const plugin_1 = require("./plugin");
 function build_plumber(callback) {
     let result;
     result =
-        gulp.src('./testdata/*') //,{ buffer: false }
+        gulp.src('./testdata/*', { buffer: false }) //
             //.src('./testdata/*') // buffer is true by default
             //        .pipe(plumber({errorHandler:false}))
             //.pipe(lineH.splitStream({fileName:'state.json', removeState:true}))
-            .pipe(plugin_1.streamSplitter({ index: 2 }))
+            .pipe(plugin_1.saveState({ removeState: true }))
             .on('error', console.error.bind(console))
             // .on('error', function(this:any,err: any) {
             //   console.error(err)

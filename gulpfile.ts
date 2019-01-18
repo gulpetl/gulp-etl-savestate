@@ -1,8 +1,7 @@
 let gulp = require('gulp')
 // import {splitStream} from './plugin'
 // export {splitStream} from './plugin';
-import {streamSplitter} from './plugin';
-const tap = require('gulp-tap');
+import {saveState} from './plugin';
 
 function build_plumber(callback: any) {
   let result
@@ -11,7 +10,7 @@ function build_plumber(callback: any) {
       //.src('./testdata/*') // buffer is true by default
       //        .pipe(plumber({errorHandler:false}))
       //.pipe(lineH.splitStream({fileName:'state.json', removeState:true}))
-      .pipe(streamSplitter({index:2}))
+      .pipe(saveState({removeState:true}))
        .on('error', console.error.bind(console))
       // .on('error', function(this:any,err: any) {
       //   console.error(err)
