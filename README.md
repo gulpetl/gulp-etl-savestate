@@ -9,15 +9,21 @@ will contain any info the plugin needs.
 
 This plugin will check for the following parameters in the configObj:
 
-- `fileName: string` - the path to the place the State will be saved, defaults to `"state.json"`
-- `removeState: boolean` - remove the State from the pipeline or keep, defaults to `false`
+- `fileName: string` - optionally pass in a path to save the state state, default does not save state
+- `removeState: boolean` - remove the State from the pipeline or keep, defaults to `true`
+
+
+
+Example `gulpfile` below:
 
 ```
+const _etl = require('gulp-etl-savestate');
+
 function build_plumber(callback: any) {
   let result
   result =
     gulp.src('./testdata/*', { buffer: false })
-      .pipe(saveState({fileName:'state.json', removeState:true}))
+      .pipe(_etl.saveState({fileName:'state.json', removeState:true}))
       .pipe(gulp.dest('./output/processed'))
       .on('end', function () {
         console.log('end')

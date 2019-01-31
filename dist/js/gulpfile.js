@@ -1,12 +1,12 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 let gulp = require('gulp');
-const plugin_1 = require("./plugin");
+// import {saveState} from './plugin';
+let _etl = require('./plugin');
 function build_plumber(callback) {
     let result;
     result =
         gulp.src('../data/testdata/*') //,{ buffer: false }
-            .pipe(plugin_1.saveState({ fileName: 'datadata/statestate.json' }))
+            .pipe(_etl.saveState({ fileName: 'state.json', removeState: false }))
             .on('error', console.error.bind(console))
             .pipe(gulp.dest('../data/output/processed'))
             .on('end', function () {

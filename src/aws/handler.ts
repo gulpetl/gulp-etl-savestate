@@ -36,7 +36,7 @@ export async function doParse(event:any, context:any, callback:any){
     from2.obj([file]).pipe(saveState({}))
     .on('data', function(data:any){
       console.log(data.contents.toString())
-      result+= JSON.stringify(data)+'\n';
+    result+= JSON.stringify(data);
     })
     .on('error', function(err:any){
       response.body = JSON.stringify(file)

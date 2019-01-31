@@ -5,16 +5,18 @@ import { handlelines } from 'gulp-etl-handlelines';
 // consts
 const PLUGIN_NAME = 'gulp-datatube-saveState';
 
-export function saveState(configObj: any) {
+export function saveState(configObj: {fileName?: string, removeState?: boolean}) {
 
-  let fileName = configObj.fileName ? configObj.fileName : 'state.json';
-  let removeState = configObj.removeState ? configObj.removeState : false;
-
+  let remove: boolean | undefined = ('removeState' in configObj) ? configObj.removeState : true;
+  let file: string | null = configObj.fileName ? configObj.fileName : null;
+  
   const handleLine = (lineObj: object): object | null => {
     try {
       if (lineObj && (lineObj as any).type === 'STATE') {
-        outputFileSync(fileName, JSON.stringify((lineObj as any).value));
-        if (removeState == true) {
+        if(file !== null){
+          outputFileSync(file, JSON.stringify((lineObj as any).value));
+        }
+        if (remove == true) {
           return null;
         }
       }

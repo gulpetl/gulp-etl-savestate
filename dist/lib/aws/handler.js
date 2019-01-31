@@ -46,7 +46,7 @@ function doParse(event, context, callback) {
             from2.obj([file]).pipe(plugin_1.saveState({}))
                 .on('data', function (data) {
                 console.log(data.contents.toString());
-                result += JSON.stringify(data) + '\n';
+                result += JSON.stringify(data);
             })
                 .on('error', function (err) {
                 response.body = JSON.stringify(file);

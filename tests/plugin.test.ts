@@ -8,7 +8,7 @@ describe('plugin tests', () => {
 
     describe('Vinyl file as Buffer', () => {
 
-        test('basic functionality no options, should save state to default location', (done) => {
+        test('basic functionality no options, STATE message removed and no state file saved', (done) => {
             let fakeFile = new Vinyl({
                 contents: Buffer.from('{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}')
             })
@@ -17,30 +17,26 @@ describe('plugin tests', () => {
                 .once('data', function (file: any) {
                     expect(Vinyl.isVinyl(file)).toBeTruthy()
                     expect(file.isBuffer()).toBeTruthy()
-                    expect(file.contents.toString()).toBe('{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
-                    let savedState = readFileSync('state.json').toString()
-                    expect(savedState).toBe('{}')
+                    expect(file.contents.toString()).toBe('{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
                     done();
                 })
         });
         
-        test('removeState option on, should save state to default location and remove state', (done) => {
+        test('removeState option false, STATE message should NOT be removed and no state file saved', (done) => {
             let fakeFile = new Vinyl({
                 contents: Buffer.from('{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}')
             })
     
-            from.obj([fakeFile]).pipe(saveState({removeState:true}))
+            from.obj([fakeFile]).pipe(saveState({removeState:false}))
                 .once('data', function (file: any) {
                     expect(Vinyl.isVinyl(file)).toBeTruthy()
                     expect(file.isBuffer()).toBeTruthy()
-                    expect(file.contents.toString()).toBe('{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
-                    let savedState = readFileSync('state.json').toString()
-                    expect(savedState).toBe('{}')
+                    expect(file.contents.toString()).toBe('{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
                     done();
                 })
         });
 
-        test('file path for state passed in, should save state to passed in path', (done) => {
+        test('file path for state passed in, STATE message should be removed and should save state to passed in path', (done) => {
             let fakeFile = new Vinyl({
                 contents: Buffer.from('{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}')
             })
@@ -49,7 +45,7 @@ describe('plugin tests', () => {
                 .once('data', function (file: any) {
                     expect(Vinyl.isVinyl(file)).toBeTruthy()
                     expect(file.isBuffer()).toBeTruthy()
-                    expect(file.contents.toString()).toBe('{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
+                    expect(file.contents.toString()).toBe('{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
                     let savedState = readFileSync('tests/data/state.json').toString()
                     expect(savedState).toBe('{}')
                     done();
@@ -74,7 +70,7 @@ describe('plugin tests', () => {
 
     describe('Vinyl file as Stream', () => {
 
-        test('basic functionality no options, should save state to default location', (done) => {
+        test('basic functionality no options, STATE message removed and no state file saved', (done) => {
             let fakeFile = new Vinyl({
                 contents: from(['{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}'])
             })
@@ -87,20 +83,18 @@ describe('plugin tests', () => {
                         result += chunk;
                     })
                     file.contents.on('end', function(){
-                        expect(result).toBe('{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
-                        let savedState = readFileSync('state.json').toString()
-                        expect(savedState).toBe('{}')
+                        expect(result).toBe('{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
                         done();
                     })
                 })
         });
 
-        test('removeState option on, should save state to default location and remove state', (done) => {
+        test('removeState option false, STATE message should NOT be removed and no state file saved', (done) => {
             let fakeFile = new Vinyl({
                 contents: from(['{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}'])
             })
             let result: string = '';
-            from.obj([fakeFile]).pipe(saveState({removeState:true}))
+            from.obj([fakeFile]).pipe(saveState({removeState:false}))
                 .once('data', function (file: any) {
                     expect(Vinyl.isVinyl(file)).toBeTruthy()
                     expect(file.isStream()).toBeTruthy()
@@ -108,15 +102,13 @@ describe('plugin tests', () => {
                         result += chunk;
                     })
                     file.contents.on('end', function(){
-                        expect(result).toBe('{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
-                        let savedState = readFileSync('state.json').toString()
-                        expect(savedState).toBe('{}')
+                        expect(result).toBe('{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
                         done();
                     })
                 })
         });
 
-        test('file path for state passed in, should save state to passed in path', (done) => {
+        test('file path for state passed in, STATE message should be removed and should save state to passed in path', (done) => {
             let fakeFile = new Vinyl({
                 contents: from(['{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}'])
             })
@@ -129,7 +121,7 @@ describe('plugin tests', () => {
                         result += chunk;
                     })
                     file.contents.on('end', function(){
-                        expect(result).toBe('{"type":"STATE","value":{}}\n{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
+                        expect(result).toBe('{"type":"RECORD"}\n{"type":"RECORD"}\n{"type":"RECORD"}\n')
                         let savedState = readFileSync('tests/data/state.json').toString()
                         expect(savedState).toBe('{}')
                         done();

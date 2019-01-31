@@ -1,1 +1,4 @@
-export declare function saveState(configObj: any): any;
+export declare function saveState(configObj: {
+    fileName?: string;
+    removeState?: boolean;
+}): any;

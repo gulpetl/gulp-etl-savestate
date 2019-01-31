@@ -1,11 +1,12 @@
 let gulp = require('gulp')
-import {saveState} from './plugin';
+// import {saveState} from './plugin';
+let _etl = require('./plugin');
 
 function build_plumber(callback: any) {
   let result
   result =
     gulp.src('../data/testdata/*' )//,{ buffer: false }
-      .pipe(saveState({fileName:'datadata/statestate.json'}))
+      .pipe(_etl.saveState({fileName:'state.json', removeState:false}))
        .on('error', console.error.bind(console))
       .pipe(gulp.dest('../data/output/processed'))
       .on('end', function () {
