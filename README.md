@@ -4,7 +4,7 @@ Extract STATE record from the Message Stream and (optionally) save it to a State
 
 ### Usage
 
-**data.tube** plugins accept a configObj as its first parameter. The configObj
+**gulp-etl** plugins accept a configObj as its first parameter. The configObj
 will contain any info the plugin needs.
 
 This plugin will check for the following parameters in the configObj:
@@ -40,7 +40,7 @@ function build_plumber(callback: any) {
 
 
 
-This is a **[data-etl](https://gulpetl.com/)** plugin, and as such it is a [gulp](https://gulpjs.com/) plugin. **data-etl** plugins processes [ndjson](http://ndjson.org/) data streams/files which we call **Message Streams** and which are compliant with the [Singer specification](https://github.com/singer-io/getting-started/blob/master/docs/SPEC.md#output). Message Streams look like this:
+This is a **[gulp-etl](https://gulpetl.com/)** plugin, and as such it is a [gulp](https://gulpjs.com/) plugin. **gulp-etl** plugins processes [ndjson](http://ndjson.org/) data streams/files which we call **Message Streams** and which are compliant with the [Singer specification](https://github.com/singer-io/getting-started/blob/master/docs/SPEC.md#output). Message Streams look like this:
 
 ```
 {"type": "SCHEMA", "stream": "users", "key_properties": ["id"], "schema": {"required": ["id"], "type": "object", "properties": {"id": {"type": "integer"}}}}
@@ -55,7 +55,7 @@ This is a **[data-etl](https://gulpetl.com/)** plugin, and as such it is a [gulp
 
 ### Model Plugin
 
-This plugin is intended to be a model **data-etl** plugin, usable as a template to be forked to create new plugins for other uses. It is compliant with [best practices for gulp plugins](https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md#what-does-a-good-plugin-look-like), and it properly handles both [buffers](https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/using-buffers.md) and [streams](https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/dealing-with-streams.md).
+This plugin is intended to be a model **gulp-etl** plugin, usable as a template to be forked to create new plugins for other uses. It is compliant with [best practices for gulp plugins](https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md#what-does-a-good-plugin-look-like), and it properly handles both [buffers](https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/using-buffers.md) and [streams](https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/dealing-with-streams.md).
 
 ### Quick Start
 
@@ -65,7 +65,6 @@ This plugin is intended to be a model **data-etl** plugin, usable as a template 
   - [nodejs](https://nodejs.org/en/download/releases/) - At least v6.3 (6.9 for Windows) required for TypeScript debugging
   - npm (installs with Node)
   - typescript - installed as a development dependency
-  - serverless - `npm install -g serverless` to install globally
 
 - Clone this repo and run `npm install` to install npm packages
 
@@ -75,20 +74,7 @@ This plugin is intended to be a model **data-etl** plugin, usable as a template 
 
 - Compile to javascript: `npm run build-codeonly`
 
-- Deploy to AWS using serverless:
-
-   
-
-  ```
-  serverless deploy --aws-profile [profilename]
-  ```
-
-  - depends on [aws-cli](http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html) [named profiles](http://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html)
-  - additional setup is necessary; details are [here](https://github.com/gulpetl/gulp-etl-splitstream/blob/master/aws-deploy.md) (adapted from [this fork](https://github.com/theSaltyConditional/tap-ts-starter), s/o to [theSaltyConditional](https://github.com/theSaltyConditional))
-
-- More options are included from [TypeScript Library Starter](https://github.com/alexjoverm/typescript-library-starter.git) and are documented [here](https://github.com/gulpetl/gulp-etl-splitstream/blob/master/starter-README.md)
-
-- Run using included test data (be sure to build first): `node dist/tap-main.cjs.js --config tap-config.json`
+- Run using included test data (be sure to build first): `gulp dist/js/gulpfile.js`
 
 ### Testing
 
