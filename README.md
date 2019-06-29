@@ -72,9 +72,9 @@ This plugin is intended to be a model **gulp-etl** plugin, usable as a template 
 
 - Test: `npm test` or `npm t`
 
-- Compile to javascript: `npm run build-codeonly`
+- Compile to javascript: `npm run build`
 
-- Run using included test data (be sure to build first): `gulp dist/js/gulpfile.js`
+- Run using included test data (be sure to build first): `gulp --gulpfile debug/gulpfile.ts`
 
 ### Testing
 
