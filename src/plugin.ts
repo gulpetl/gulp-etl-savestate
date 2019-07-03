@@ -14,7 +14,7 @@ function createRecord(recordObject:Object, streamName: string) : any {
 }
 
 //configObj {fileName?: string, removeState?: boolean}
-export function saveState(configObj: {fileName?: string, removeState?: boolean, bookmarkProp: string}) {
+export function saveState(configObj: {fileName?: string, removeState?: boolean, bookmarkProp: string, numOfRecords: number}) {
 
   let remove: boolean | undefined = ('removeState' in configObj) ? configObj.removeState : true;
   let file: string | null = configObj.fileName ? configObj.fileName : null;
@@ -24,7 +24,7 @@ export function saveState(configObj: {fileName?: string, removeState?: boolean, 
     try {
       
       if (lineObj && (lineObj as any).type === 'RECORD') { 
-        if(recordnum % 2 == 0) {
+        if(recordnum % configObj.numOfRecords == 0) {
           if(file !== null){
             let BookmarkProp = configObj.bookmarkProp
             let Obj:Object = (lineObj as any).record
