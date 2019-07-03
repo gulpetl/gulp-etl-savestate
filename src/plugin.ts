@@ -9,10 +9,6 @@ function createStateRecord(recordObject:Object, streamName: string) : any {
   return {type:"STATE", stream: streamName, last_entry: recordObject}
 }
 
-function createRecord(recordObject:Object, streamName: string) : any {
-  return {type:"RECORD", stream:streamName, record:recordObject}
-}
-
 //configObj {fileName?: string, removeState?: boolean}
 export function saveState(configObj: {fileName?: string, removeState?: boolean, bookmarkProp: string, numOfRecords: number}) {
 
