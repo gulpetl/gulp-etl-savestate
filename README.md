@@ -1,6 +1,6 @@
 # gulp-etl-savestate #
 
-Extract STATE record from the Message Stream and (optionally) save it to a State File. 
+Extract STATE record and generate STATE messages from records (optional) coming in at a save frequency from the Message Stream and (optionally) save it to a State File. 
 
 ### Usage
 
@@ -9,22 +9,24 @@ will contain any info the plugin needs.
 
 This plugin will check for the following parameters in the configObj:
 
-- `fileName: string` - optionally pass in a path to save the state state, default does not save state
-- `removeState: boolean` - remove the State from the pipeline or keep, defaults to `true`
-
+- `fileName: string` - optionally pass in a path to save the state state, default to creating a state file in teh active directory and dumping it there. If you don't want to save the incoming state hard code `null` in this parameter
+- `saveInStream: boolean` - remove the State from the pipeline or keep in case bookmarp prop is not passed, if bookmark prop is present this decides whether , defaults to `true`
+- `bookmarkProp?: string` - decides the property of the record which the STATE message will generated based upon, if this is null, the STATE message generation feature will be turned off, defaults to `null`
+- `saveFrequency?: number` - this is the frequency at which the STATE messages would be generated, defaulted to `1000`
 
 
 Example `gulpfile` below:
 
 ```
-const _etl = require('gulp-etl-savestate');
+import {saveState} from '../src/plugin';
 
-function build_plumber(callback: any) {
+function runSaveState(callback: any) {
   let result
   result =
-    gulp.src('./testdata/*', { buffer: false })
-      .pipe(_etl.saveState({fileName:'state.json', removeState:true}))
-      .pipe(gulp.dest('./output/processed'))
+    gulp.src('../testdata/*.ndjson' )//,{ buffer: false }
+      .pipe(saveState({fileName:'../state.json', saveInStream:false, bookmarkProp: 'ModifiedTime', saveFrequency:2}))
+      .on('error', console.error.bind(console))
+      .pipe(gulp.dest('../testdata/processed'))
       .on('end', function () {
         console.log('end')
         callback()
