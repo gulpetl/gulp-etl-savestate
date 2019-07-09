@@ -38,7 +38,7 @@ export function saveState(configObj: {fileName?: string, saveInStream?: boolean,
 
               if (saveInStream == true) {
                 let latestState = (lineObj as any).record[bookmarkProp]
-                return createStateRecord(latestState)
+                return createStateRecord(latestState),lineObj;
               }
   
             }
