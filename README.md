@@ -10,7 +10,7 @@ will contain any info the plugin needs.
 This plugin will check for the following parameters in the configObj:
 
 - `fileName: string` - optionally pass in a path to save the state state, default to creating a state file in teh active directory and dumping it there. If you don't want to save the incoming state hard code `null` in this parameter
-- `saveInStream: boolean` - remove the State from the pipeline or keep in case bookmarp prop is not passed, if bookmark prop is present this decides whether the state messages will be passed into teh stream, defaults to `true`
+- `saveInStream: boolean` - remove the State message from the stream or keep it, in case bookmarp prop is not passed it just takes care of the incoming state messages, if bookmark prop is present this also decides whether the generated state messages will be also passed into the stream, defaults to `true`
 - `bookmarkProp?: string` - decides the property of the record which the STATE message will generated based upon, if this is null, the STATE message generation feature will be turned off, defaults to `null`
 - `saveFrequency?: number` - this is the frequency at which the STATE messages would be generated, defaulted to `1000`
 
