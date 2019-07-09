@@ -6,8 +6,8 @@ function runSaveState(callback: any) {
   let result
   result =
     gulp.src('../testdata/*.ndjson' )//,{ buffer: false }
-      .pipe(saveState({fileName:'../testdata/output/state.json', saveInStream:true, bookmarkProp: 'Module, Trailer, or Single Bale', saveFrequency:2}))
-       .on('error', console.error.bind(console))
+      .pipe(saveState({fileName:'../testdata/output/state.json', saveInStream: true, bookmarkProp: 'Module, Trailer, or Single Bale', saveFrequency:2}))
+      .on('error', console.error.bind(console))
       .pipe(gulp.dest('../testdata/processed'))
       .on('end', function () {
         console.log('end')
