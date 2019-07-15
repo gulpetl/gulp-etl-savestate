@@ -6,10 +6,10 @@ Extract STATE record and generate STATE messages from records (optional) coming 
 
 POSSIBLE USE CASES FOR THIS PLUGIN WITH NEW ADDED FUNCTIONALITY:
 
-1. Incoming State Messages
+1. Incoming State Messages (DEPICTED BY USECASE1 IN GULPFILE)
     - It can save the incoming state messages (if it has a filename, no filename means no saving)
     - It can pass it back into the stream (if SaveInStream is true, if its false it will not pass it through)
-2. Generated State Messages
+2. Generated State Messages (DEPICTED BY USECASE2 IN GULPFILE)
     - It can do this (If it has bookmarkProp, if it does not have these, the functionality will be disabled)
     - It can pass it back into the stream (if SaveInStream is true, if its false it will not pass it through)
 
@@ -33,9 +33,15 @@ function runSaveState(callback: any) {
   let result
   result =
     gulp.src('../testdata/*.ndjson' )//,{ buffer: false }
-      .pipe(saveState({fileName:'../state.json', saveInStream:false, bookmarkProp: 'ModifiedTime', saveFrequency:2}))
+    //USE_CASE-1
+      .pipe(saveState({fileName:'../testdata/output/state1.json', saveInStream: true, bookmarkProp: 'Module, Trailer, or Single Bale', saveFrequency:2}))
       .on('error', console.error.bind(console))
-      .pipe(gulp.dest('../testdata/processed'))
+      .pipe(gulp.dest('../testdata/processed/Stream1'))
+
+    //USE_CASE-2
+      // .pipe(saveState({fileName:'../testdata/output/state2.json', saveInStream: false}))
+      // .on('error', console.error.bind(console))
+      // .pipe(gulp.dest('../testdata/processed/Stream2'))
       .on('end', function () {
         console.log('end')
         callback()
