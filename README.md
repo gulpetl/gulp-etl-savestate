@@ -4,6 +4,15 @@ Extract STATE record and generate STATE messages from records (optional) coming 
 
 ### Usage
 
+POSSIBLE USE CASES FOR THIS PLUGIN WITH NEW ADDED FUNCTIONALITY:
+
+1. Incoming State Messages
+    - It can save the incoming state messages (if it has a filename, no filename means no saving)
+    - It can pass it back into the stream (if SaveInStream is true, if its false it will not pass it through)
+2. Generated State Messages
+    - It can do this (If it has bookmarkProp, if it does not have these, the functionality will be disabled)
+    - It can pass it back into the stream (if SaveInStream is true, if its false it will not pass it through)
+
 **gulp-etl** plugins accept a configObj as its first parameter. The configObj
 will contain any info the plugin needs.
 
