@@ -1,30 +1,47 @@
 # gulp-etl-savestate #
 
-Extract STATE record from the Message Stream and (optionally) save it to a State File. 
+Extract STATE record and generate STATE messages from records (optional) coming in at a save frequency from the Message Stream and (optionally) save it to a State File. 
 
 ### Usage
+
+POSSIBLE USE CASES FOR THIS PLUGIN WITH NEW ADDED FUNCTIONALITY:
+
+1. Incoming State Messages (DEPICTED BY USECASE1 IN GULPFILE)
+    - It can save the incoming state messages (if it has a filename, no filename means no saving)
+    - It can pass it back into the stream (if SaveInStream is true, if its false it will not pass it through)
+2. Generated State Messages (DEPICTED BY USECASE2 IN GULPFILE)
+    - It can do this (If it has bookmarkProp, if it does not have these, the functionality will be disabled)
+    - It can pass it back into the stream (if SaveInStream is true, if its false it will not pass it through)
 
 **gulp-etl** plugins accept a configObj as its first parameter. The configObj
 will contain any info the plugin needs.
 
 This plugin will check for the following parameters in the configObj:
 
-- `fileName: string` - optionally pass in a path to save the state state, default does not save state
-- `removeState: boolean` - remove the State from the pipeline or keep, defaults to `true`
-
+- `fileName: string` - optionally pass in a path to save the state state, default to creating a state file in teh active directory and dumping it there. If you don't want to save the incoming state hard code `null` in this parameter
+- `saveInStream: boolean` - remove the State message from the stream or keep it, in case bookmarp prop is not passed it just takes care of the incoming state messages, if bookmark prop is present this also decides whether the generated state messages will be also passed into the stream, defaults to `true`
+- `bookmarkProp?: string` - decides the property of the record which the STATE message will generated based upon, if this is null, the STATE message generation feature will be turned off, defaults to `null`
+- `saveFrequency?: number` - this is the frequency at which the STATE messages would be generated, defaulted to `1000`
 
 
 Example `gulpfile` below:
 
 ```
-const _etl = require('gulp-etl-savestate');
+import {saveState} from '../src/plugin';
 
-function build_plumber(callback: any) {
+function runSaveState(callback: any) {
   let result
   result =
-    gulp.src('./testdata/*', { buffer: false })
-      .pipe(_etl.saveState({fileName:'state.json', removeState:true}))
-      .pipe(gulp.dest('./output/processed'))
+    gulp.src('../testdata/*.ndjson' )//,{ buffer: false }
+    //USE_CASE-1
+      .pipe(saveState({fileName:'../testdata/output/state1.json', saveInStream: true, bookmarkProp: 'Module, Trailer, or Single Bale', saveFrequency:2}))
+      .on('error', console.error.bind(console))
+      .pipe(gulp.dest('../testdata/processed/Stream1'))
+
+    //USE_CASE-2
+      // .pipe(saveState({fileName:'../testdata/output/state2.json', saveInStream: false}))
+      // .on('error', console.error.bind(console))
+      // .pipe(gulp.dest('../testdata/processed/Stream2'))
       .on('end', function () {
         console.log('end')
         callback()

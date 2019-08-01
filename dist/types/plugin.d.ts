@@ -1,4 +1,6 @@
 export declare function saveState(configObj: {
     fileName?: string;
-    removeState?: boolean;
+    saveInStream?: boolean;
+    bookmarkProp?: string;
+    saveFrequency?: number;
 }): any;
