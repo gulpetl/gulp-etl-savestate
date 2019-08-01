@@ -1,9 +1,9 @@
 import PluginError = require('plugin-error');
-import { writeFileSync, outputFileSync } from 'fs-extra';
+import { outputFileSync } from 'fs-extra';
 import { handlelines } from 'gulp-etl-handlelines';
 
-// consts
-const PLUGIN_NAME = 'gulp-datatube-saveState';
+require('pkginfo')(module); // project package.json info into module.exports
+const PLUGIN_NAME = module.exports.name;
 
 function createStateRecord(recordObject:Object) : Object {
   return {type:"STATE", last_entry: recordObject}

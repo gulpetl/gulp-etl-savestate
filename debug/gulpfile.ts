@@ -7,7 +7,7 @@ function runSaveState(callback: any) {
   result =
     gulp.src('../testdata/*.ndjson' )//,{ buffer: false }
     //USE_CASE-1
-      .pipe(saveState({fileName:'../testdata/output/state1.json', saveInStream: true, bookmarkProp: 'Module, Trailer, or Single Bale', saveFrequency:2}))
+      .pipe(saveState({fileName:'../testdata/output/state1.json', saveInStream: true, bookmarkProp: 'Gin Bale Number', saveFrequency:2}))
       .on('error', console.error.bind(console))
       .pipe(gulp.dest('../testdata/processed/Stream1'))
 
