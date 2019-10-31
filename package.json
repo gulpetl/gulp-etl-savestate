@@ -1,6 +1,6 @@
 {
   "name": "gulp-etl-savestate",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": "https://github.com/gulpetl/gulp-etl-savestate",
   "description": "Extract and save state information across invocations of gulp-etl",
   "main": "dist/js/plugin.js",
